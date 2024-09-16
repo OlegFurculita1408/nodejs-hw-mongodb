@@ -2,9 +2,9 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import pino from 'pino-http';
 import express from 'express';
-import { env } from './utils/env';
-import { ENV_VARS } from './constants/indexEnv';
-import { getContactsController, getContactByIdController } from './controllers/contacts';
+import env from './utils/env.js';
+import { ENV_VARS } from './constants/indexEnv.js';
+import { getContactsController, getContactByIdController } from './controllers/contacts.js';
 
 dotenv.config();
 
@@ -15,6 +15,13 @@ const setupServer = () => {
 
   app.use(cors());
   app.use(pino());
+
+  app.get('/', (req, res, next) => {
+    res.status(200).json({
+      message: 'Welcome to the Contacts API!',
+    });
+    next();
+  });
 
   app.get('/contacts', getContactsController);
 

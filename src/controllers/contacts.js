@@ -1,4 +1,4 @@
-import { getAllContacts, getContactsById } from '../services/contacts'; // Імпорт сервісу
+import { getAllContacts, getContactsById } from '../services/contacts.js'; // Імпорт сервісу
 
 export const getContactsController = async (req, res) => {
   try {
