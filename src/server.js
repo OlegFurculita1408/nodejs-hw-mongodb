@@ -14,22 +14,15 @@ dotenv.config();
 const setupServer = () => {
   const app = express();
 
-  app.use(cors());
-  app.use(pino());
-
   app.use(
     express.json({
       type: ['application/json', 'application/vnd.api+json'],
-      limit: '100kb',
+      limit: '200kb',
     }),
   );
 
-  app.use(contactsRouter);
-
-  app.use(notFoundAnythingMiddlewares);
-
-  app.use(errorHandlerMiddlelware);
-
+  app.use(cors());
+  app.use(pino());
 
   app.get('/', (req, res, next) => {
     res.status(200).json({
@@ -37,6 +30,13 @@ const setupServer = () => {
     });
     next();
   });
+
+  app.use(contactsRouter);
+
+  app.use(notFoundAnythingMiddlewares);
+
+  app.use(errorHandlerMiddlelware);
+
 
   const PORT = env(ENV_VARS.PORT, 3000);
   try {
