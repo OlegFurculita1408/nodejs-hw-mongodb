@@ -4,17 +4,32 @@ import pino from 'pino-http';
 import express from 'express';
 import env from './utils/env.js';
 import { ENV_VARS } from './constants/indexEnv.js';
-import { getContactsController, getContactByIdController } from './controllers/contacts.js';
+import contactsRouter from './routers/contacts.js';
+import { errorHandlerMiddlelware } from './middlewares/errorHandler.js';
+import { notFoundAnythingMiddlewares } from './middlewares/notFoundHandler.js';
+
 
 dotenv.config();
-
-const PORT = env(ENV_VARS.PORT, 3000);
 
 const setupServer = () => {
   const app = express();
 
   app.use(cors());
   app.use(pino());
+
+  app.use(
+    express.json({
+      type: ['application/json', 'application/vnd.api+json'],
+      limit: '100kb',
+    }),
+  );
+
+  app.use(contactsRouter);
+
+  app.use(notFoundAnythingMiddlewares);
+
+  app.use(errorHandlerMiddlelware);
+
 
   app.get('/', (req, res, next) => {
     res.status(200).json({
@@ -23,10 +38,7 @@ const setupServer = () => {
     next();
   });
 
-  app.get('/contacts', getContactsController);
-
-  app.get('/contacts/:contactId', getContactByIdController);
-
+  const PORT = env(ENV_VARS.PORT, 3000);
   try {
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
