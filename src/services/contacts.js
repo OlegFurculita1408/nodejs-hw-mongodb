@@ -12,7 +12,8 @@ export const getContactsById = async (contactId) => {
     if (!contact) {
         throw createHttpError(404, {
             status:404,
-            message: 'Contact not found ${contactId}',
+            message: `Contact not found ${contactId}`,
+            data: null
         })
     }
     return contact;
@@ -24,7 +25,7 @@ export const createContact = async (payload) => {
 
 export const updateContact = async (id, updateData) => {
     const updatedContact = await contactModel.findByIdAndUpdate(id, updateData, {
-      new: true, // return update 
+      new: true,
       runValidators: true,
     });
   

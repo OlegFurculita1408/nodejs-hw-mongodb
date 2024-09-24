@@ -1,21 +1,19 @@
-import { isHttpError } from 'http-errors';
-import { MongooseError } from 'mongoose';
+import { HttpError } from 'http-errors';
 
 export const errorHandlerMiddlelware = (err, req, res, next) => {
-    if (isHttpError(err)) {
-        next(res.status(err.status)).json({
-            message:err.name,
-            error: err.massage,
-        });
-    }
-    if (err instanceof MongooseError) {
-        return res.status(500).json({
-        message: 'MonggooseError',
-        error: err.message,
-        });
-    }
-    res.status(500).json({
-        message: 'Something went wrong',
-        error: err.message,
+  if (err instanceof HttpError) {
+    res.status(err.status).json({
+      status: err.status,
+      message: err.name,
+      data: err,
     });
-}
+    return;
+  }
+
+  res.status(500).json({
+    status: 500,
+    message: 'Something went wrong',
+    data: err.message,
+  });
+  next();
+};

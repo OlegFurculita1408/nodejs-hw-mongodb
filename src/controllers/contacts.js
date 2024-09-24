@@ -1,3 +1,4 @@
+import createHttpError from 'http-errors'
 import { getAllContacts, 
   getContactsById, 
   createContact,
@@ -23,30 +24,24 @@ export const getContactsController = async (req, res) => {
   }
 };
 
+
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
+    const student = await getContactsById(contactId);
 
-  try {
-    const contact = await getContactsById(contactId);
 
-    if (!contact) {
-      next(new Error('Contact not found'));
-      return;
+    if (!student) {
+      throw createHttpError(404, 'Contact not found');
     }
-
-    res.status(200).json({
+    res.json({
       status: 200,
       message: `Successfully found contact with id ${contactId}!`,
-      data: contact,
+      data: student,
     });
-  } catch (error) {
-    res.status(500).json({
-      status: 500,
-      message: 'Error fetching contact',
-      error: error.message,
-    });
-  }
+    next();
 };
+
+
 
 export const createContactController = async (req, res) => {
   const contact = await createContact(req.body);
@@ -65,7 +60,7 @@ export const updateContactController = async (req, res) => {
   const updatedContact = await updateContact(contactId, updateData);
 
   if (!updatedContact) {
-    throw Error(404, "Contact not found");
+    throw createHttpError(404, "Contact not found");
   }
   res.status(200).json({
     status: 200,

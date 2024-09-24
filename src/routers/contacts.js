@@ -3,7 +3,7 @@ import { getContactsController,
      getContactByIdController,
      createContactController,
      deleteContactByIdController,
-     updateContactController } from '../controllers/contacts.js'; // Імпорт сервісу
+     updateContactController } from '../controllers/contacts.js';
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
 
 
