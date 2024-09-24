@@ -1,11 +1,11 @@
-import { HttpError } from 'http-errors';
+import { isHttpError } from 'http-errors';
 
-export const errorHandlerMiddlelware = (err, req, res, next) => {
-  if (err instanceof HttpError) {
-    res.status(err.status).json({
-      status: err.status,
-      message: err.name,
-      data: err,
+export const errorHandlerMiddleware = (err, req, res, next) => {
+  if (isHttpError(err)) {
+    res.status(err.status || 500).json({
+      status: err.status || 500,
+      message: err.message || 'Internal Server Error',
+      data: err.expose ? err.message : 'An error occurred',
     });
     return;
   }
@@ -15,5 +15,4 @@ export const errorHandlerMiddlelware = (err, req, res, next) => {
     message: 'Something went wrong',
     data: err.message,
   });
-  next();
 };

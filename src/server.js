@@ -5,7 +5,7 @@ import express from 'express';
 import env from './utils/env.js';
 import { ENV_VARS } from './constants/indexEnv.js';
 import contactsRouter from './routers/contacts.js';
-import { errorHandlerMiddlelware } from './middlewares/errorHandler.js';
+import { errorHandlerMiddleware } from './middlewares/errorHandler.js';
 import { notFoundAnythingMiddlewares } from './middlewares/notFoundHandler.js';
 
 
@@ -35,7 +35,7 @@ const setupServer = () => {
 
   app.use(notFoundAnythingMiddlewares);
 
-  app.use(errorHandlerMiddlelware);
+  app.use(errorHandlerMiddleware);
 
 
   const PORT = env(ENV_VARS.PORT, 3000);
