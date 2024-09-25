@@ -25,9 +25,9 @@ export const getContactsController = async (req, res) => {
 };
 
 
-export const getContactByIdController = async (req, res, next) => {
+export const getContactByIdController = async (req, res) => {
   const { contactId } = req.params;
-  try {
+
     const contact = await getContactsById(contactId);
 
     if (!contact) {
@@ -38,10 +38,7 @@ export const getContactByIdController = async (req, res, next) => {
       status: 200,
       message: `Successfully found contact with id ${contactId}`,
       data: contact,
-    });
-  } catch (error) {
-    next(error);
-  }
+  });
 };
 
 
@@ -71,10 +68,14 @@ export const updateContactController = async (req, res) => {
   });
 };
 
-export const deleteContactByIdController = async (req, res) => {
+export const deleteContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
 
-await deleteContactId(contactId);
+  const contact = await deleteContactId(contactId);
+
+  if (!contact) {
+    return next(createHttpError(404, 'Contact not found'));
+  }
 
   res.status(204).send();
 };
