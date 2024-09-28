@@ -1,21 +1,40 @@
-import createHttpError from "http-errors";
 import { contactModel } from "../db/models/contacts.js";
+import { calculatePaginationData } from '../utils/calculatePaginationData.js';
+import { SORT_ORDER } from '../constants/indexEnv.js';
 
-export const getAllContacts = async () => {
-    const contacts = await contactModel.find();
-    return contacts;
+export const getAllContacts = async ({
+        page = 1, 
+        perPage = 10,
+        sortOrder = SORT_ORDER.ASC,
+        sortBy = '_id',
+        filters = {},
+    }) => {
+
+    const limit = perPage;
+    const skip = (page - 1) * perPage;
+  
+    const contactsQuery = contactModel.find(filters);
+    const contactsCount = await contactModel.find(filters)
+        .countDocuments()
+        .merge(contactsQuery)
+        .countDocuments();
+  
+    const contacts = await contactsQuery
+        .skip(skip)
+        .limit(limit)
+        .sort({ [sortBy]: sortOrder })
+        .exec();
+  
+    const paginationData = calculatePaginationData(contactsCount, perPage, page);
+  
+    return {
+      data: contacts,
+      ...paginationData,
+    }
 };
 
 export const getContactsById = async (contactId) => {
     const contact = await contactModel.findById(contactId);
-
-    if (!contact) {
-        throw createHttpError(404, {
-            status:404,
-            message: `Contact not found ${contactId}`,
-            data: null
-        })
-    }
     return contact;
 };
 

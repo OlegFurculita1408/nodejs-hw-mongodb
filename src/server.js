@@ -39,12 +39,12 @@ const setupServer = () => {
 
 
   const PORT = env(ENV_VARS.PORT, 3000);
-  try {
-  app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-  });
-  } catch (error) {
-    console.error('Failed to start application:', error.message);
+    try {
+      app.listen(PORT, () => {
+      console.log(`Server is running on http://localhost:${PORT}`);
+    });
+      } catch (error) {
+        console.error('Failed to start application:', error.message);
   }
 
   app.use((req, res, next) => {
@@ -52,8 +52,6 @@ const setupServer = () => {
        message: 'Not found' });
     next();
   });
-
-
 };
 
 export { setupServer };
