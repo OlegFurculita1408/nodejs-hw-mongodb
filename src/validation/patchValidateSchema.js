@@ -5,5 +5,5 @@ export const patchtSchemaValidation = Joi.object({
   email: Joi.string().email(),
   phoneNumber: Joi.string().min(3).max(20),
   isFavourite: Joi.boolean(),
-  contactType: Joi.string().valid('personal', 'business'),
+  contactType: Joi.string().valid('personal', 'home'),
 });
