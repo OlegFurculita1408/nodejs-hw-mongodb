@@ -7,6 +7,9 @@ import { ENV_VARS } from './constants/indexEnv.js';
 import contactsRouter from './routers/contacts.js';
 import { errorHandlerMiddleware } from './middlewares/errorHandler.js';
 import { notFoundAnythingMiddlewares } from './middlewares/notFoundHandler.js';
+import router from './routers/index.js';
+import cookieParser from 'cookie-parser';
+
 
 
 dotenv.config();
@@ -23,6 +26,7 @@ const setupServer = () => {
 
   app.use(cors());
   app.use(pino());
+  app.use(cookieParser());
 
   app.get('/', (req, res, next) => {
     res.status(200).json({
@@ -32,6 +36,8 @@ const setupServer = () => {
   });
 
   app.use(contactsRouter);
+
+  app.use(router);
 
   app.use(notFoundAnythingMiddlewares);
 

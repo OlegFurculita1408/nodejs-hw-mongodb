@@ -55,6 +55,3 @@ export const deleteContactId = async (id) => {
     const deletedContact = await contactModel.findByIdAndDelete(id);
     return deletedContact;
   };
-
-
-

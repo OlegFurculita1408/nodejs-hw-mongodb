@@ -33,4 +33,10 @@ router.patch('/contacts/:contactId',
 router.delete('/contacts/:contactId',  
      ctrlWrapper(deleteContactByIdController));
 
+router.post('/register',
+          validateBody(contactSchemaValidation),
+          ctrlWrapper(createContactController));
+
+
+
 export default router;
