@@ -14,7 +14,7 @@ import { authenticate } from "../middlewares/authenticate.js";
 
 const router = Router();
 
-router.use(authenticate);
+router.use('/contacts', authenticate);
 
 router.get('/',
      ctrlWrapper(getContactsController));
