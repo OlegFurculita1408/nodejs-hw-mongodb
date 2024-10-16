@@ -6,6 +6,9 @@ import { getAllContacts,
   deleteContactId } from '../services/contacts.js';
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
+import { saveFileToCloudinary, saveFileToUploadDir } from '../utils/saveFileToUploadDir.js';
+import { UserModel } from '../db/models/user.js';
+import env from '../utils/env.js';
 
 
 export const getContactsController = async (req, res) => {
@@ -61,22 +64,39 @@ export const getContactByIdController = async (req, res) => {
 };
 
 
-export const createContactController = async (req, res) => {
-  const contactData = { ...req.body, userId: req.user._id };
-  const contact = await createContact(contactData);
+export const createContactController = async (req, res, next) => {
+  try {
+    const { file } = req;
+    const contactData = { ...req.body, userId: req.user._id };
 
-  res.status(201).json({
-    status: 201,
-    message: "Successfully created a contact!",
-    data: contact,
-  });
+    if (file) {
+      const photoUrl = await saveFileToCloudinary(req.file);
+      contactData.photo = photoUrl;
+    }
+
+    const contact = await createContact(contactData);
+
+    res.status(201).json({
+      status: 201,
+      message: "Successfully created a contact!",
+      data: contact,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 
 export const updateContactController = async (req, res) => {
   const { contactId } = req.params;
   const updateData = req.body;
+  const { file } = req;
   const updatedContact = await updateContact(contactId, updateData, req.user._id);
+
+  if (file) {
+    const photoUrl = await saveFileToCloudinary(req.file);
+    updatedContact.photo = photoUrl;
+  }
 
   if (!updatedContact) {
     throw createHttpError(404, "Contact not found");
@@ -103,4 +123,36 @@ export const deleteContactByIdController = async (req, res, next) => {
   } catch (error) {
     next(error);
   };
+};
+
+
+export const patchStudentController = async (req, res, next) => {
+  const { contactId } = req.params;
+  const photo = req.file;
+
+  let photoUrl;
+
+  if (photo) {
+    if (env('ENABLE_CLOUDINARY') === 'true') {
+      photoUrl = await saveFileToCloudinary(photo);
+    } else {
+      photoUrl = await saveFileToUploadDir(photo);
+    }
+  }
+
+  const result = await UserModel(contactId, {
+    ...req.body,
+    photo: photoUrl,
+  });
+
+  if (!result) {
+    next(createHttpError(404, 'Student not found'));
+    return;
+  }
+
+  res.json({
+    status: 200,
+    message: `Successfully patched a student!`,
+    data: result.student,
+  });
 };
