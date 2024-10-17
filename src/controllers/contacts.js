@@ -39,7 +39,7 @@ export const getContactsController = async (req, res) => {
       data: contacts,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       status: 500,
       message: 'Error fetching contacts',
       error: error.message,
@@ -52,11 +52,14 @@ export const getContactByIdController = async (req, res) => {
   const { contactId } = req.params;
   const contact = await getContactsById(contactId, req.user._id);
 
-    if (!contact) {
-      throw createHttpError(404, 'Contact not found');
-    }
+  if (!contact) {
+    return res.status(404).json({
+       status: 404,
+       message: 'Contact not found',
+    });
+ }
 
-    res.status(200).json({
+    return res.status(200).json({
       status: 200,
       message: `Successfully found contact with id ${contactId}`,
       data: contact,
@@ -76,7 +79,7 @@ export const createContactController = async (req, res, next) => {
 
     const contact = await createContact(contactData);
 
-    res.status(201).json({
+    return res.status(201).json({
       status: 201,
       message: "Successfully created a contact!",
       data: contact,
@@ -102,7 +105,7 @@ export const updateContactController = async (req, res) => {
     throw createHttpError(404, "Contact not found");
   }
   
-  res.status(200).json({
+  return res.status(200).json({
     status: 200,
     message: "Successfully patched a contact!",
     data: updatedContact,
@@ -111,18 +114,13 @@ export const updateContactController = async (req, res) => {
 
 
 export const deleteContactByIdController = async (req, res, next) => {
-  try {
-    const { contactId } = req.params;
-    const contact = await deleteContactId(contactId, req.user._id);
+  const { contactId } = req.params;
+  const contact = await deleteContactId(contactId, req.user._id);
 
-    if (!contact) {
-      return next(createHttpError(404, 'Contact not found'));
-    }
-
-    res.status(204).send();
-  } catch (error) {
-    next(error);
-  };
+  if (!contact) {
+    return next(createHttpError(404, 'Contact not found'));
+  }
+  res.status(204).send();
 };
 
 
