@@ -30,13 +30,13 @@ router.get('/contacts/:contactId',
      ctrlWrapper(getContactByIdController));
 
 router.post('/contacts', 
-     validateBody(contactSchemaValidation),
      upload.single('photo'),
+     validateBody(contactSchemaValidation),
      ctrlWrapper(createContactController));
 
 router.patch('/contacts/:contactId', 
-     validateBody(patchtSchemaValidation),
      upload.single('photo'),
+     validateBody(patchtSchemaValidation),
      ctrlWrapper(updateContactController));
 
 router.delete('/contacts/:contactId',  
