@@ -1,0 +1,23 @@
+tags:
+  - Contacts
+summary: Get a contact by ID
+operationId: getContactById
+description: Retrieves a specific contact by their ID.
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+      example: '65ca67e7ae7f10c88b598384'
+responses:
+  '200':
+    description: A single contact
+    content:
+      application/json:
+        schema:
+          $ref: ../../../components/schemas/contact.yaml
+  '401':
+    $ref: ../../../components/responses/notFound.yaml

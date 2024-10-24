@@ -5,5 +5,5 @@ export const contactSchemaValidation = Joi.object({
   email: Joi.string().required().email(),
   phoneNumber: Joi.string().required().min(3).max(20),
   isFavourite: Joi.boolean(),
-  contactType: Joi.string().valid('personal', 'home').required(),
+  contactType: Joi.string().valid('personal', 'home', 'work').required(),
 });

@@ -1,19 +1,30 @@
 openapi: 3.1.0
 info:
   version: 1.0.0
-  title: App contacts
+  title: Contacts app
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  description:
-    <опис вашого додатку>
+  description: API documentation for the Contacts app.
 tags:
-  # теги, що ви будете використовувати
+  - name: Contacts
+    description: Contacts related operations
 servers:
-  - url: http://localhost:3000
-  - url: #посилання на задеплоєний сайт
+  - url: http://127.0.0.1:8080
+  - url: https://nodejs-hw-mongodb-kzxe.onrender.com
 paths:
-  # тут будуть посилання на ендпоінти
+  /contact:
+    get: 
+      $ref: ../swagger/contacts/get.yaml
+    post: 
+      $ref: ../swager/contacts/post.yaml
+  /contacts/{id}:
+    get:
+      $ref: ../swagger/paths/contacts/{id}/get.yaml
+    delete:
+      $ref: ../swagger/paths/contacts/{id}/delete.yaml
+    patch:
+      $ref: ../swagger/paths/contacts/{id}/patch.yaml
 components:
   securitySchemes:
     bearerAuth:

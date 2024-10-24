@@ -10,7 +10,7 @@ import { notFoundAnythingMiddlewares } from './middlewares/notFoundHandler.js';
 import router from './routers/index.js';
 import cookieParser from 'cookie-parser';
 import { UPLOAD_DIR } from './constants/indexEnv.js';
-
+import { swaggerDocs } from './middlewares/swaggerDocs.js';
 
 
 dotenv.config();
@@ -24,6 +24,9 @@ const setupServer = () => {
       limit: '200kb',
     }),
   );
+
+  app.use('/uploads', express.static(UPLOAD_DIR));
+  app.use('/api-docs', swaggerDocs());
 
   app.use(cors());
   app.use(pino());

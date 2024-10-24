@@ -1,0 +1,23 @@
+tags:
+  - Auth
+summary: Log in a user
+operationId: loginUser
+description: Logs in a user and returns a JWT token.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: ../../components/schemas/LoginUser.yaml
+responses:
+  '200':
+    description: User logged in successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            token:
+              type: string
+  '401':
+    description: Invalid credentials
