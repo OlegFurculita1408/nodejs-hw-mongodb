@@ -15,9 +15,9 @@ servers:
 paths:
   /contact:
     get: 
-      $ref: ../swagger/contacts/get.yaml
+      $ref: ../swagger/paths/contacts/get.yaml
     post: 
-      $ref: ../swager/contacts/post.yaml
+      $ref: ../swagger/paths/contacts/get.yaml
   /contacts/{id}:
     get:
       $ref: ../swagger/paths/contacts/{id}/get.yaml
