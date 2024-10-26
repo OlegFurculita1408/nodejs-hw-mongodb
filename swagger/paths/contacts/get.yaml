@@ -75,4 +75,4 @@ responses:
                   example: false
   '401':
     description: Unauthorized
-    $ref: ../../components/responses/notFound.yaml
+    $ref: ../../components/responses/401.yaml

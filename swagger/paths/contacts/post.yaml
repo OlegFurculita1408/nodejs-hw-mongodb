@@ -59,8 +59,10 @@ responses:
               $ref: ../../components/schemas/contact.yaml
   '400':
     description: Bad request
+    $ref: ../../components/responses/400.yaml
   '401':
     description: Unauthorized
+    $ref: ../../components/responses/401.yaml
   '500':
     description: Internal server error
     $ref: ../../components/responses/notFound.yaml
