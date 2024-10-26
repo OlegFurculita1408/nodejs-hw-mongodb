@@ -37,4 +37,4 @@ required:
   - name
   - phoneNumber
   - contactType
-  - userId
+  - email
