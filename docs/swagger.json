@@ -31,7 +31,7 @@
         ],
         "summary": "Get list of contacts",
         "operationId": "getContacts",
-        "description": "Get list of users with this endpoint",
+        "description": "Get list of contacts with this endpoint",
         "security": [
           {
             "bearerAuth": []
@@ -86,7 +86,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully found students!"
+                      "example": "Successfully found contacts!"
                     },
                     "data": {
                       "type": "object",
@@ -108,27 +108,27 @@
                         },
                         "page": {
                           "type": "number",
-                          "example": 2
+                          "example": 1
                         },
                         "perPage": {
                           "type": "number",
-                          "example": 4
+                          "example": 10
                         },
                         "totalItems": {
                           "type": "number",
-                          "example": 4
+                          "example": 100
                         },
                         "totalPages": {
                           "type": "number",
-                          "example": 4
+                          "example": 10
                         },
                         "hasNextPage": {
                           "type": "boolean",
-                          "example": false
+                          "example": true
                         },
                         "hasPreviousPage": {
                           "type": "boolean",
-                          "example": true
+                          "example": false
                         }
                       }
                     }
@@ -138,7 +138,8 @@
             }
           },
           "401": {
-            "$ref": "#/components/responses/notFound"
+            "description": "Unauthorized",
+            "$ref": "#/components/responses/401"
           }
         }
       },
@@ -148,7 +149,7 @@
         ],
         "summary": "Get list of contacts",
         "operationId": "getContacts",
-        "description": "Get list of users with this endpoint",
+        "description": "Get list of contacts with this endpoint",
         "security": [
           {
             "bearerAuth": []
@@ -203,7 +204,7 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully found students!"
+                      "example": "Successfully found contacts!"
                     },
                     "data": {
                       "type": "object",
@@ -225,27 +226,27 @@
                         },
                         "page": {
                           "type": "number",
-                          "example": 2
+                          "example": 1
                         },
                         "perPage": {
                           "type": "number",
-                          "example": 4
+                          "example": 10
                         },
                         "totalItems": {
                           "type": "number",
-                          "example": 4
+                          "example": 100
                         },
                         "totalPages": {
                           "type": "number",
-                          "example": 4
+                          "example": 10
                         },
                         "hasNextPage": {
                           "type": "boolean",
-                          "example": false
+                          "example": true
                         },
                         "hasPreviousPage": {
                           "type": "boolean",
-                          "example": true
+                          "example": false
                         }
                       }
                     }
@@ -255,7 +256,8 @@
             }
           },
           "401": {
-            "$ref": "#/components/responses/notFound"
+            "description": "Unauthorized",
+            "$ref": "#/components/responses/401"
           }
         }
       }
@@ -296,7 +298,11 @@
             }
           },
           "401": {
-            "$ref": "#/components/responses/notFound"
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "description": "Invalid contact ID",
+            "$ref": "#/components/responses/404"
           }
         }
       },
@@ -328,7 +334,11 @@
           },
           "401": {
             "description": "Contact not found",
-            "$ref": "#/components/responses/notFound"
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "description": "Invalid contact ID",
+            "$ref": "#/components/responses/404"
           }
         }
       },
@@ -377,7 +387,11 @@
             }
           },
           "401": {
-            "$ref": "#/components/responses/notFound"
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "description": "Invalid contact ID",
+            "$ref": "#/components/responses/404"
           }
         }
       }
@@ -415,6 +429,11 @@
             "description": "Is the contact a favorite",
             "default": false
           },
+          "photo": {
+            "description": "Link to contacts photo",
+            "type": "string",
+            "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
+          },
           "contactType": {
             "type": "string",
             "description": "Type of contact",
@@ -424,23 +443,18 @@
               "personal"
             ],
             "example": "personal"
-          },
-          "userId": {
-            "type": "string",
-            "description": "ID of the user who owns the contact",
-            "example": "60d5ec49d7c2ab1234567890"
           }
         },
         "required": [
           "name",
           "phoneNumber",
           "contactType",
-          "userId"
+          "email"
         ]
       }
     },
     "responses": {
-      "notFound": {
+      "401": {
         "description": "Unauthorized error",
         "content": {
           "application/json": {
@@ -469,6 +483,43 @@
                     "message": {
                       "type": "string",
                       "example": "Access token expired"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Unauthorized error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Invalid contact ID"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid contact ID"
                     }
                   }
                 }
