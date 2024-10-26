@@ -27,3 +27,6 @@ responses:
           $ref: ../../../components/schemas/contact.yaml
   '401':
     $ref: ../../../components/responses/notFound.yaml
+  '404':
+    description: Invalid contact ID
+    $ref: ../../../components/responses/404.yaml
