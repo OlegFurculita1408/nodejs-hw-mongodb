@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "http://127.0.0.1:8080"
     },
     {
       "url": "https://nodejs-hw-mongodb-kzxe.onrender.com"
@@ -370,34 +370,32 @@
           "email"
         ]
       }
-    }
-  },
+    },
     "responses": {
       "400": {
         "description": "Bad request",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                  "required": [
-                    "status",
-                    "message"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 400
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
                 },
                 "message": {
                   "type": "string",
-                    "example": "Please check the provided data"
+                  "example": "Please check the provided data"
+                }
+              }
             }
           }
         }
-      }
-    }
-  },
-    "responses": {
+      },
       "401": {
         "description": "Unauthorized error",
         "content": {
@@ -474,3 +472,4 @@
       }
     }
   }
+}
