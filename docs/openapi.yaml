@@ -13,7 +13,7 @@ servers:
   - url: http://127.0.0.1:8080
   - url: https://nodejs-hw-mongodb-kzxe.onrender.com
 paths:
-  /contact:
+  /contacts:
     get: 
       $ref: ../swagger/paths/contacts/get.yaml
     post: 
