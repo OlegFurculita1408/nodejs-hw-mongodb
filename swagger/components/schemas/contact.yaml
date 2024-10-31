@@ -18,9 +18,9 @@ properties:
     description: 'Is the contact a favorite'
     default: false
   photo:
-    description: "Link to contacts photo"
+    description: "Link to contact's photo"
     type: string
-    example: "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
+    example: https://res.cloudinary.com/uqwgdu/image/upload/image.png
   contactType:
     type: string
     description: 'Type of contact'
@@ -29,12 +29,8 @@ properties:
       - home
       - personal
     example: 'personal'
-  # userId:
-  #   type: string
-  #   description: 'ID of the user who owns the contact'
-  #   example: '60d5ec49d7c2ab1234567890'
-required:
-  - name
-  - phoneNumber
-  - contactType
-  - email
+    required:
+      - name
+      - phoneNumber
+      - contactType
+      - email
