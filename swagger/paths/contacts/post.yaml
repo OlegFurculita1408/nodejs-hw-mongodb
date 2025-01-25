@@ -1,0 +1,67 @@
+tags:
+  - Contacts
+summary: CreateContacts
+operationId: CreateContacts
+description: "Create a contact with payload"
+security:
+  - bearerAuth: []
+requestBody:
+  content:
+    multipart/form-data:
+      schema:
+        type: object
+        required:
+          - name
+          - phoneNumber
+          - contactType
+          - email
+        properties:
+          name:
+            description: "Contact's name"
+            type: string
+            example: "John Doe"
+          phoneNumber:
+            description: "Contact's phone number"
+            type: string
+            example: "+37323456789"
+          contactType:
+            description: "Type of contact"
+            type: string
+            enum: ["work", "home", "personal"]
+          email:
+            description: "Email of the contact"
+            type: string
+            example: "test@gmail.com"
+          photo:
+            description: "Link to contact's photo"
+            type: string
+            example: https://res.cloudinary.com/uqwgdu/image/upload/image.png
+responses:
+  '201':
+    description: Creates a contact
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: "Successfully created a contact!"
+            data:
+              type: object
+              $ref: ../../components/schemas/contact.yaml
+  '400':
+    description: Bad request
+    $ref: ../../components/responses/400.yaml
+  '401':
+    description: Unauthorized
+    $ref: ../../components/responses/401.yaml
+  '500':
+    description: Internal server error

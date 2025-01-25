@@ -1,0 +1,10 @@
+tags:
+  - Auth
+summary: Log out a user
+operationId: logoutUser
+description: Logs out the authenticated user.
+responses:
+  '204':
+    description: Logged out successfully
+  '401':
+    description: Unauthorized
